@@ -21,5 +21,12 @@ namespace BillingSystem.UI.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Create(PaymentViewModel payViewModel)
+        {
+            payViewModel.InsertNewPayment();
+            return RedirectToAction("ManagePayments");
+        }
     }
 }
