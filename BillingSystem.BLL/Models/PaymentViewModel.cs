@@ -8,6 +8,7 @@ namespace BillingSystem.BLL.Models
 {
     public class PaymentViewModel
     {
+        [Display(Name = "Expense Name")]
         public string Expense { get; set; }
         
         public string Description { get; set; }
@@ -18,6 +19,7 @@ namespace BillingSystem.BLL.Models
         [Display(Name = "Interest Rate")]
         public double InterestRate { get; set; }
 
+        [Display(Name = "Payment Due Date")]
         public DateTime DueDate { get; set; }
     }
 }
