@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using BillingSystem.DAL;
 
 namespace BillingSystem.BLL.Models
 {
     public class PaymentViewModel
     {
+        [HiddenInput(DisplayValue = false)]
         public int PaymentId { get; set; }
 
         [Display(Name = "Expense Name")]
