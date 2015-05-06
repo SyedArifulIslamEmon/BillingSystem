@@ -229,6 +229,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Payment\ManagePayments.cshtml" />
     <Content Include="Views\Payment\Create.cshtml" />
+    <Content Include="Views\Payment\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

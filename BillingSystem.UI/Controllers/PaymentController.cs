@@ -15,7 +15,7 @@ namespace BillingSystem.UI.Controllers
         {
             var payVM = new PaymentRepository();
 
-            var payments = payVM.GetPayments();
+            var payments = payVM.RetrievePayments();
             return View(payments);
         }
 
@@ -30,6 +30,17 @@ namespace BillingSystem.UI.Controllers
             var payVm = new PaymentRepository();
             payVm.InsertNewPayment(payViewModel);
             return RedirectToAction("ManagePayments");
+        }
+
+        public ActionResult Edit(int id = 0)
+        {
+            var paymentReposiory = new PaymentRepository();
+            var payment = paymentReposiory.RetrievePayment(id);
+
+            if (payment == null)
+                return HttpNotFound();
+
+            return View(payment);
         }
     }
 }
