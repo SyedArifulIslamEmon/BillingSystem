@@ -42,5 +42,17 @@ namespace BillingSystem.UI.Controllers
 
             return View(payment);
         }
+
+        [HttpPost]
+        public ActionResult Edit(PaymentViewModel paymentVM)
+        {
+            var payRep = new PaymentRepository();
+            var res = payRep.UpdatePayment(paymentVM);
+
+            if (!res)
+                return HttpNotFound();
+
+            return RedirectToAction("ManagePayments");
+        }
     }
 }
