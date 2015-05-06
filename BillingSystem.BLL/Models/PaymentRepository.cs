@@ -25,7 +25,7 @@ namespace BillingSystem.BLL.Models
             _bsEntities.SaveChanges();
         }
 
-        public List<PaymentViewModel> GetPayments()
+        public List<PaymentViewModel> RetrievePayments()
         {
             var payments = _bsEntities.Payments.ToList();
 
@@ -35,6 +35,7 @@ namespace BillingSystem.BLL.Models
             {
                 payLst.Add(new PaymentViewModel
                 {
+                    PaymentId = payment.PaymentId,
                     Description = payment.Description,
                     DueDate = payment.DueDate,
                     Expense = payment.Expense,
@@ -43,6 +44,23 @@ namespace BillingSystem.BLL.Models
                 });
             }
             return payLst;
+        }
+
+        public PaymentViewModel RetrievePayment(int paymentId)
+        {
+            var payment = _bsEntities.Payments.FirstOrDefault(x => x.PaymentId == paymentId);
+
+            if (payment == null)
+                return null;
+                
+            return new PaymentViewModel()
+                   {
+                       Description = payment.Description,
+                       Expense = payment.Expense,
+                       InterestRate = payment.InterestRate,
+                       DueDate = payment.DueDate,
+                       MonthlyEstimatedDues = payment.MonthlyEstDues
+                   };
         }
     }
 }

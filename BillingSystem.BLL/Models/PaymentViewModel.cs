@@ -9,6 +9,8 @@ namespace BillingSystem.BLL.Models
 {
     public class PaymentViewModel
     {
+        public int PaymentId { get; set; }
+
         [Display(Name = "Expense Name")]
         public string Expense { get; set; }
         
