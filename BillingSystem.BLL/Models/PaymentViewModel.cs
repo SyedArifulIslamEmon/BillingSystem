@@ -17,13 +17,16 @@ namespace BillingSystem.BLL.Models
         public string Description { get; set; }
 
         [Display(Name = "Monthly Est. Dues")]
-        public double MonthlyEstimatedDues { get; set; }
+        [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
+        public double? MonthlyEstimatedDues { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
         [Display(Name = "Interest Rate")]
-        public double InterestRate { get; set; }
+        public double? InterestRate { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         [Display(Name = "Payment Due Date")]
-        public DateTime DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
 
         public void InsertNewPayment()
         {
@@ -37,6 +40,26 @@ namespace BillingSystem.BLL.Models
 
             _bsEntities.Payments.Add(newPayment);
             _bsEntities.SaveChanges();
+        }
+
+        public List<PaymentViewModel> GetPayments()
+        {
+            var payments = _bsEntities.Payments.ToList();
+
+            var payLst = new List<PaymentViewModel>();
+
+            foreach (var payment in payments)
+            {
+                payLst.Add(new PaymentViewModel
+                           {
+                               Description = payment.Description,
+                               DueDate = payment.DueDate,
+                               Expense = payment.Expense,
+                               InterestRate = payment.InterestRate,
+                               MonthlyEstimatedDues = payment.MonthlyEstDues
+                           });
+            }
+            return payLst;
         }
     }
 }
