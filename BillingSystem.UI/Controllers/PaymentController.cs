@@ -10,7 +10,7 @@ namespace BillingSystem.UI.Controllers
     public class PaymentController : Controller
     {
         // GET: Payment
-        public ActionResult ManageBilling()
+        public ActionResult ManagePayments()
         {
             var payments = new List<PaymentViewModel>();
             return View(payments);
