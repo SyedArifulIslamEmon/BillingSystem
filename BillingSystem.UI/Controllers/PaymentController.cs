@@ -13,7 +13,9 @@ namespace BillingSystem.UI.Controllers
         // GET: Payment
         public ActionResult ManagePayments()
         {
-            var payments = new List<PaymentViewModel>();
+            var payVM = new PaymentRepository();
+
+            var payments = payVM.GetPayments();
             return View(payments);
         }
 
@@ -25,7 +27,8 @@ namespace BillingSystem.UI.Controllers
         [HttpPost]
         public ActionResult Create(PaymentViewModel payViewModel)
         {
-            payViewModel.InsertNewPayment();
+            var payVm = new PaymentRepository();
+            payVm.InsertNewPayment(payViewModel);
             return RedirectToAction("ManagePayments");
         }
     }

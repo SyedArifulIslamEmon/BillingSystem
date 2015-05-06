@@ -9,8 +9,6 @@ namespace BillingSystem.BLL.Models
 {
     public class PaymentViewModel
     {
-        private DAL.BillingSystemEntities _bsEntities = new BillingSystemEntities();
-
         [Display(Name = "Expense Name")]
         public string Expense { get; set; }
         
@@ -27,39 +25,5 @@ namespace BillingSystem.BLL.Models
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         [Display(Name = "Payment Due Date")]
         public DateTime? DueDate { get; set; }
-
-        public void InsertNewPayment()
-        {
-            var newPayment = new DAL.Payment();
-            newPayment.Description = this.Description;
-            newPayment.DueDate = this.DueDate;
-            newPayment.Expense = this.Expense;
-            newPayment.InterestRate = this.InterestRate;
-            newPayment.MonthlyEstDues = this.MonthlyEstimatedDues;
-            newPayment.Timestamp = DateTime.Now;
-
-            _bsEntities.Payments.Add(newPayment);
-            _bsEntities.SaveChanges();
-        }
-
-        public List<PaymentViewModel> GetPayments()
-        {
-            var payments = _bsEntities.Payments.ToList();
-
-            var payLst = new List<PaymentViewModel>();
-
-            foreach (var payment in payments)
-            {
-                payLst.Add(new PaymentViewModel
-                           {
-                               Description = payment.Description,
-                               DueDate = payment.DueDate,
-                               Expense = payment.Expense,
-                               InterestRate = payment.InterestRate,
-                               MonthlyEstimatedDues = payment.MonthlyEstDues
-                           });
-            }
-            return payLst;
-        }
     }
 }
