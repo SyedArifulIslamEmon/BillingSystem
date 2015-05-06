@@ -16,5 +16,10 @@ namespace BillingSystem.UI.Controllers
             var payments = new List<PaymentViewModel>();
             return View(payments);
         }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
     }
 }
