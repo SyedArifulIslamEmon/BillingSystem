@@ -31,7 +31,7 @@ namespace BillingSystem.DAL
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<PayHistory> PayHistories { get; set; }
-        public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
     }
 }

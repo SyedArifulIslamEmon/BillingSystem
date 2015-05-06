@@ -11,13 +11,13 @@
         <EntityTypeShape EntityType="BillingSystemModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BillingSystemModel.AspNetUser" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="BillingSystemModel.PayHistory" Width="1.5" PointX="8.25" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BillingSystemModel.Payment" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BillingSystemModel.sysdiagram" Width="1.5" PointX="8.75" PointY="2.625" IsExpanded="true" />
         <AssociationConnector Association="BillingSystemModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="BillingSystemModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="BillingSystemModel.FK_PayHistory_AspNetUsers" ManuallyRouted="false" />
-        <AssociationConnector Association="BillingSystemModel.FK_PayHistory_Payment" ManuallyRouted="false" />
         <AssociationConnector Association="BillingSystemModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BillingSystemModel.Payment" Width="1.5" PointX="0.75" PointY="1" />
+        <AssociationConnector Association="BillingSystemModel.FK_PayHistory_Payment" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

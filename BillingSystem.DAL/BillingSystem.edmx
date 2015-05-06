@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BillingSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BillingSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -83,9 +83,10 @@
           <Property Name="PaymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Expense" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
-          <Property Name="MonthlyEstDues" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="InterestRate" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MonthlyEstDues" Type="float" />
+          <Property Name="InterestRate" Type="float" />
           <Property Name="DueDate" Type="datetime" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -212,8 +213,7 @@
             <End Role="PayHistory" EntitySet="PayHistory" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BillingSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -287,19 +287,7 @@
           <Property Name="PaidBy_UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_PayHistory_AspNetUsers" FromRole="PayHistory" ToRole="AspNetUsers" />
-          <NavigationProperty Name="Payment" Relationship="Self.FK_PayHistory_Payment" FromRole="PayHistory" ToRole="Payment" />
-        </EntityType>
-        <EntityType Name="Payment">
-          <Key>
-            <PropertyRef Name="PaymentId" />
-          </Key>
-          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Expense" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MonthlyEstDues" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="InterestRate" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="DueDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="PayHistories" Relationship="Self.FK_PayHistory_Payment" FromRole="Payment" ToRole="PayHistory" />
+          <NavigationProperty Name="Payment" Relationship="BillingSystemModel.FK_PayHistory_Payment" FromRole="PayHistory" ToRole="Payment" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -351,18 +339,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PayHistory_Payment">
-          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
-          <End Role="PayHistory" Type="Self.PayHistory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Payment">
-              <PropertyRef Name="PaymentId" />
-            </Principal>
-            <Dependent Role="PayHistory">
-              <PropertyRef Name="PaymentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -374,7 +350,6 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <EntitySet Name="PayHistories" EntityType="Self.PayHistory" />
-          <EntitySet Name="Payments" EntityType="Self.Payment" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -388,15 +363,41 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="PayHistory" EntitySet="PayHistories" />
           </AssociationSet>
-          <AssociationSet Name="FK_PayHistory_Payment" Association="Self.FK_PayHistory_Payment">
-            <End Role="Payment" EntitySet="Payments" />
-            <End Role="PayHistory" EntitySet="PayHistories" />
-          </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="Payments" EntityType="BillingSystemModel.Payment" />
+          <AssociationSet Name="FK_PayHistory_Payment" Association="BillingSystemModel.FK_PayHistory_Payment">
+            <End Role="Payment" EntitySet="Payments" />
+            <End Role="PayHistory" EntitySet="PayHistories" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Expense" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MonthlyEstDues" Type="Double" />
+          <Property Name="InterestRate" Type="Double" />
+          <Property Name="DueDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PayHistories" Relationship="BillingSystemModel.FK_PayHistory_Payment" FromRole="Payment" ToRole="PayHistory" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="FK_PayHistory_Payment">
+          <End Type="BillingSystemModel.Payment" Role="Payment" Multiplicity="1" />
+          <End Type="BillingSystemModel.PayHistory" Role="PayHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="PaymentId" />
+            </Principal>
+            <Dependent Role="PayHistory">
+              <PropertyRef Name="PaymentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -469,18 +470,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Payments">
-            <EntityTypeMapping TypeName="BillingSystemModel.Payment">
-              <MappingFragment StoreEntitySet="Payment">
-                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
-                <ScalarProperty Name="Expense" ColumnName="Expense" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="MonthlyEstDues" ColumnName="MonthlyEstDues" />
-                <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
-                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="BillingSystemModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -500,6 +489,19 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="BillingSystemModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="InterestRate" ColumnName="InterestRate" />
+                <ScalarProperty Name="MonthlyEstDues" ColumnName="MonthlyEstDues" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Expense" ColumnName="Expense" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
