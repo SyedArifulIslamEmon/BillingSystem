@@ -55,12 +55,41 @@ namespace BillingSystem.BLL.Models
                 
             return new PaymentViewModel()
                    {
+                       PaymentId =  payment.PaymentId,
                        Description = payment.Description,
                        Expense = payment.Expense,
                        InterestRate = payment.InterestRate,
                        DueDate = payment.DueDate,
                        MonthlyEstimatedDues = payment.MonthlyEstDues
                    };
+        }
+
+        public bool RemovePayment(PaymentViewModel payVM)
+        {
+            var payment = _bsEntities.Payments.FirstOrDefault(x => x.PaymentId == payVM.PaymentId);
+
+            if (payment == null)
+                return false;
+
+            _bsEntities.Payments.Remove(payment);
+            _bsEntities.SaveChanges();
+            return true;
+        }
+
+        public bool UpdatePayment(PaymentViewModel payVM)
+        {
+            var payment = _bsEntities.Payments.FirstOrDefault(x => x.PaymentId == payVM.PaymentId);
+
+            if (payment == null)
+                return false;
+
+            payment.Description = payVM.Description;
+            payment.DueDate = payVM.DueDate;
+            payment.Expense = payVM.Expense;
+            payment.InterestRate = payVM.InterestRate;
+            payment.MonthlyEstDues = payVM.MonthlyEstimatedDues;
+            _bsEntities.SaveChanges();
+            return true;
         }
     }
 }
