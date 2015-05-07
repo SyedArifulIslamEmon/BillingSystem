@@ -83,7 +83,7 @@
           <Property Name="PaymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Expense" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
-          <Property Name="MonthlyEstDues" Type="float" />
+          <Property Name="MonthlyEstDues" Type="float" Nullable="false" />
           <Property Name="InterestRate" Type="float" />
           <Property Name="DueDate" Type="datetime" />
           <Property Name="Timestamp" Type="datetime" Nullable="false" />
@@ -380,7 +380,7 @@
           <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Expense" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MonthlyEstDues" Type="Double" />
+          <Property Name="MonthlyEstDues" Type="Double" Nullable="false" />
           <Property Name="InterestRate" Type="Double" />
           <Property Name="DueDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="PayHistories" Relationship="BillingSystemModel.FK_PayHistory_Payment" FromRole="Payment" ToRole="PayHistory" />

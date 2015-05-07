@@ -22,7 +22,7 @@ namespace BillingSystem.DAL
         public int PaymentId { get; set; }
         public string Expense { get; set; }
         public string Description { get; set; }
-        public Nullable<double> MonthlyEstDues { get; set; }
+        public double MonthlyEstDues { get; set; }
         public Nullable<double> InterestRate { get; set; }
         public Nullable<System.DateTime> DueDate { get; set; }
         public System.DateTime Timestamp { get; set; }
