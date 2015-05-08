@@ -30,7 +30,7 @@ namespace BillingSystem.BLL.Models
         public double? InterestRate { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM-dd}", ApplyFormatInEditMode = false)]
         [Display(Name = "Payment Due Date")]
         public DateTime? DueDate { get; set; }
     }
