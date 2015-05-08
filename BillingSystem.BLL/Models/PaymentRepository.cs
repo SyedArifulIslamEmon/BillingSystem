@@ -9,7 +9,7 @@ namespace BillingSystem.BLL.Models
 {
     public class PaymentRepository
     {
-        private DAL.BillingSystemEntities _bsEntities = new BillingSystemEntities();
+        private DAL.BillingSystemEntities _db = new BillingSystemEntities();
 
         public void InsertNewPayment(PaymentViewModel payVM)
         {
@@ -21,13 +21,13 @@ namespace BillingSystem.BLL.Models
             newPayment.MonthlyEstDues = payVM.MonthlyEstimatedDues;
             newPayment.Timestamp = DateTime.Now;
 
-            _bsEntities.Payments.Add(newPayment);
-            _bsEntities.SaveChanges();
+            _db.Payments.Add(newPayment);
+            _db.SaveChanges();
         }
 
         public List<PaymentViewModel> RetrievePayments()
         {
-            var payments = _bsEntities.Payments.ToList();
+            var payments = _db.Payments.ToList();
 
             var payLst = new List<PaymentViewModel>();
 
@@ -48,7 +48,7 @@ namespace BillingSystem.BLL.Models
 
         public PaymentViewModel RetrievePayment(int paymentId)
         {
-            var payment = _bsEntities.Payments.FirstOrDefault(x => x.PaymentId == paymentId);
+            var payment = _db.Payments.FirstOrDefault(x => x.PaymentId == paymentId);
 
             if (payment == null)
                 return null;
@@ -66,19 +66,19 @@ namespace BillingSystem.BLL.Models
 
         public bool RemovePayment(PaymentViewModel payVM)
         {
-            var payment = _bsEntities.Payments.FirstOrDefault(x => x.PaymentId == payVM.PaymentId);
+            var payment = _db.Payments.FirstOrDefault(x => x.PaymentId == payVM.PaymentId);
 
             if (payment == null)
                 return false;
 
-            _bsEntities.Payments.Remove(payment);
-            _bsEntities.SaveChanges();
+            _db.Payments.Remove(payment);
+            _db.SaveChanges();
             return true;
         }
 
         public bool UpdatePayment(PaymentViewModel payVM)
         {
-            var payment = _bsEntities.Payments.FirstOrDefault(x => x.PaymentId == payVM.PaymentId);
+            var payment = _db.Payments.FirstOrDefault(x => x.PaymentId == payVM.PaymentId);
 
             if (payment == null)
                 return false;
@@ -88,8 +88,15 @@ namespace BillingSystem.BLL.Models
             payment.Expense = payVM.Expense;
             payment.InterestRate = payVM.InterestRate;
             payment.MonthlyEstDues = payVM.MonthlyEstimatedDues;
-            _bsEntities.SaveChanges();
+            _db.SaveChanges();
             return true;
+        }
+
+        public void DeletePayment(int paymentId)
+        {
+            var rec = _db.Payments.First(x => x.PaymentId == paymentId);
+            _db.Payments.Remove(rec);
+            _db.SaveChanges();
         }
     }
 }

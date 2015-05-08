@@ -10,12 +10,12 @@ namespace BillingSystem.UI.Controllers
 {
     public class PaymentController : Controller
     {
+        private PaymentRepository payRep = new PaymentRepository();
+
         // GET: Payment
         public ActionResult ManagePayments()
         {
-            var payVM = new PaymentRepository();
-
-            var payments = payVM.RetrievePayments();
+            var payments = payRep.RetrievePayments();
             return View(payments);
         }
 
@@ -27,15 +27,13 @@ namespace BillingSystem.UI.Controllers
         [HttpPost]
         public ActionResult Create(PaymentViewModel payViewModel)
         {
-            var payVm = new PaymentRepository();
-            payVm.InsertNewPayment(payViewModel);
+            payRep.InsertNewPayment(payViewModel);
             return RedirectToAction("ManagePayments");
         }
 
         public ActionResult Edit(int id = 0)
         {
-            var paymentReposiory = new PaymentRepository();
-            var payment = paymentReposiory.RetrievePayment(id);
+            var payment = payRep.RetrievePayment(id);
 
             if (payment == null)
                 return HttpNotFound();
@@ -46,7 +44,6 @@ namespace BillingSystem.UI.Controllers
         [HttpPost]
         public ActionResult Edit(PaymentViewModel paymentVM)
         {
-            var payRep = new PaymentRepository();
             var res = payRep.UpdatePayment(paymentVM);
 
             if (!res)
@@ -54,16 +51,12 @@ namespace BillingSystem.UI.Controllers
 
             return RedirectToAction("ManagePayments");
         }
-
-        //public ActionResult Delete(int id)
-        //{
-        //    return RedirectToAction("ManagePayments");
-        //}
-
+        
         [HttpPost]
-        public ActionResult Delete(int id)
+        public string Delete(int id)
         {
-            return RedirectToAction("ManagePayments");
+            payRep.DeletePayment(id);
+            return "deleted";
         }
     }
 } 

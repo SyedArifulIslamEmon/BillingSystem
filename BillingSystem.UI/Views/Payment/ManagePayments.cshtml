@@ -23,7 +23,7 @@
                 buttons: {
                     "Continue": function () {
                         $.post(deleteLinkObj[0].href, function (data) {  //Post to action
-                            if (data == '<%= Boolean.TrueString %>') {
+                            if (data == "deleted") {
                                 deleteLinkObj.closest("tr").hide('slow'); //Hide Row
                                 //(optional) Display Confirmation
                             }
