@@ -54,5 +54,16 @@ namespace BillingSystem.UI.Controllers
 
             return RedirectToAction("ManagePayments");
         }
+
+        //public ActionResult Delete(int id)
+        //{
+        //    return RedirectToAction("ManagePayments");
+        //}
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            return RedirectToAction("ManagePayments");
+        }
     }
-}
+} 

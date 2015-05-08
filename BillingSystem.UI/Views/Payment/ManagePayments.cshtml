@@ -5,6 +5,43 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            var deleteLinkObj;
+            // delete Link
+            $('.delete-link').click(function () {
+                deleteLinkObj = $(this);  //for future use
+                $('#delete-dialog').dialog('open');
+                return false; // prevents the default behaviour
+            });
+
+            //definition of the delete dialog.
+            $('#delete-dialog').dialog({
+                autoOpen: false, width: 400, resizable: false, modal: true, //Dialog options
+                buttons: {
+                    "Continue": function () {
+                        $.post(deleteLinkObj[0].href, function (data) {  //Post to action
+                            if (data == '<%= Boolean.TrueString %>') {
+                                deleteLinkObj.closest("tr").hide('slow'); //Hide Row
+                                //(optional) Display Confirmation
+                            }
+                            else {
+                                //(optional) Display Error
+                            }
+                        });
+                        $(this).dialog("close");
+                    },
+                    "Cancel": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        });
+    </script>
+}
+
 <h2>ManageBilling</h2>
 
 <p>
@@ -50,9 +87,13 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.PaymentId }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Delete", "Delete", new { id = item.PaymentId }, new { @class = "delete-link" })
             </td>
         </tr>
     }
 
 </table>
+
+<div id="delete-dialog" title="Confirmation">
+    <p>Are you sure you want to delete this Brand?</p>
+</div>		
